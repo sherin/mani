@@ -18,7 +18,6 @@ class Job:
         lock = redis_lock.Lock(self.redis, self.name, expire=60)
         if lock.acquire(blocking=False):
             log.info("running job %s", self.name)
-            log.warning("what")
 
             self.last_ran = now
             self.func()
