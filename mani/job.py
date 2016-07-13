@@ -8,17 +8,18 @@ import util
 log = logging.getLogger(__name__)
 
 class Job:
-    def __init__(self, name, period, func, redis):
+    def __init__(self, name, period, func, redis, config):
         self.name = name
         self.period = period
         self.func = func
         self.redis = redis
         self.running = False
+        self.config = config
         self.get_last_ran()
 
     def run(self, now):
 
-        lock = redis_lock.Lock(self.redis, self.name)
+        lock = redis_lock.Lock(self.redis, self.name, expire=self.config["timeout"])
         if lock.acquire(blocking=False):
             log.info("running job %s", self.name)
             self.running = True

@@ -14,9 +14,7 @@ log = logging.getLogger(__name__)
 class Scheduler:
 
     DEFAULT_CONFIG = {
-      "timeout": 0.5,
-      "grace": 15,
-      "long_running_timeout": 5,
+      "timeout": 60,
       "heartbeat_key": "mani:heartbeat",
     }
 
@@ -43,7 +41,7 @@ class Scheduler:
         if name in self.jobs:
             raise "duplicate job %s" % name
 
-        job = Job(name, period, job_func, self.redis)
+        job = Job(name, period, job_func, self.redis, self.config)
         self.jobs[name] = job
 
     def start(self):
