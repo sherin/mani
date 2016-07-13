@@ -83,7 +83,7 @@ class Scheduler:
         try:
             for sig in self.TRAPPED_SIGNALS:
                 signal.signal(sig, self.stop)
-        except ValueError:
+        except ValueError: # for tests to pass (since it runs on a thread)
             log.warning("could not add handlers for trapping signals")
 
     def stop(self, _signal=None, _frame=None):
