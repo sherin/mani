@@ -21,15 +21,16 @@ class Job:
 
         lock = redis_lock.Lock(self.redis, self.name, expire=self.config["timeout"])
         if lock.acquire(blocking=False):
-            log.info("running job %s", self.name)
-            self.running = True
-
-            self.set_last_ran(now)
-
             try:
-                self.func()
-            except:
-                log.exception("%s job failed to run!" % self.name)
+                log.info("running job %s", self.name)
+
+                self.running = True
+                self.set_last_ran(now)
+
+                try:
+                    self.func()
+                except:
+                    log.exception("%s job failed to run!" % self.name)
             finally:
                 lock.release()
         else:
