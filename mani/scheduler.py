@@ -80,10 +80,13 @@ class Scheduler:
         return datetime.now()
 
     def trap_signals(self):
-        for sig in self.TRAPPED_SIGNALS:
-            signal.signal(sig, self.stop)
+        try:
+            for sig in self.TRAPPED_SIGNALS:
+                signal.signal(sig, self.stop)
+        except ValueError:
+            log.warning("could not add handlers for trapping signals")
 
-    def stop(self, _signal, _frame):
+    def stop(self, _signal=None, _frame=None):
         self.stopped = True
 
     def sleep_until_next_second(self):

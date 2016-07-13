@@ -12,13 +12,17 @@ class Mani:
         self.redis = util.redis_conn(redis_url)
         self.scheduler = Scheduler(redis=self.redis, config=config)
 
-    def every(self, minutes):
+    def every(self, seconds=0, minutes=0):
 
         def inner(job_func):
-           self.scheduler.add_job(minutes, job_func)
+            period = seconds + minutes * 60
+            self.scheduler.add_job(period, job_func)
 
         return inner
 
     def start(self):
         self.scheduler.start()
+
+    def stop(self):
+        self.scheduler.stop()
 
