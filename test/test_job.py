@@ -22,7 +22,7 @@ class TestJob(unittest.TestCase):
 
         self.assertIsNotNone(job)
         self.assertIs(job.is_running(), False)
-        self.assertEqual(job.last_ran, datetime.min)
+        self.assertEqual(job.last_ran(), datetime.min)
 
     def test_should_run(self):
         job = Job("test", 1, run_job, redis, self.config)
