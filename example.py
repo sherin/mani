@@ -2,6 +2,8 @@
 from mani import Mani
 
 import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
+
 
 # create logger
 logger = logging.getLogger(__name__)

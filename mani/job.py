@@ -15,7 +15,6 @@ class Job:
         self.redis = redis
         self.running = False
         self.config = config
-        self.get_last_ran()
 
     def run(self, now):
 
@@ -39,11 +38,13 @@ class Job:
         self.running = False
 
     def ready_to_run(self, now):
-        run_at = self.last_ran + timedelta(seconds=self.period)
+        last_ran = self.last_ran()
+        run_at = last_ran + timedelta(seconds=self.period)
 
-        if run_at > now or self.last_ran > now:
+        if run_at > now or last_ran > now:
             return False
 
+        log.debug("%s run_at: %s, last_ran: %s, now: %s", self.name, run_at, last_ran, now)
         return True
 
     def last_ran_key(self):
@@ -51,15 +52,14 @@ class Job:
 
     def set_last_ran(self, now):
         self.redis.set(self.last_ran_key(), util.to_timestamp(now))
-        self.get_last_ran()
 
-    def get_last_ran(self):
+    def last_ran(self):
         last_ran = self.redis.get(self.last_ran_key())
         if last_ran:
             last_ran = util.to_datetime(last_ran)
         else:
             last_ran = datetime.min
-        self.last_ran = last_ran
+        return last_ran
 
     def is_running(self):
         return self.running
