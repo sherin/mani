@@ -20,7 +20,7 @@ mani_log.addHandler(ch)
 redis_url = "redis://localhost:6379/"
 mani = Mani(redis_url)
 
-@mani.every(minutes=1)
+@mani.every(weeks=1, at="mon 19:00:00")
 def foo():
     print 1 + 1
 

@@ -36,12 +36,12 @@ class Scheduler:
         self.config = self.DEFAULT_CONFIG.copy()
         self.config.update(config)
 
-    def add_job(self, period, job_func):
+    def add_job(self, period, at, job_func):
         name = job_func.__name__
         if name in self.jobs:
             raise "duplicate job %s" % name
 
-        job = Job(name, period, job_func, self.redis, self.config)
+        job = Job(name, period, at, job_func, self.redis, self.config)
         self.jobs[name] = job
 
     def start(self):
