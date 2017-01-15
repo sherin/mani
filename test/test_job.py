@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from mani.job import Job
 from mani import util
@@ -19,10 +19,11 @@ class TestJob(unittest.TestCase):
 
     def test_init(self):
         job = Job("test", 1, None, run_job, redis, self.config)
+        now = datetime.now()
 
         self.assertIsNotNone(job)
         self.assertIs(job.is_running(), False)
-        self.assertEqual(job.last_ran(), datetime.min)
+        self.assertEqual(job.last_ran(now), now - timedelta(seconds=1))
 
     def test_should_run(self):
         job = Job("test", 1, None, run_job, redis, self.config)

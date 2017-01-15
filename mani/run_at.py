@@ -77,7 +77,7 @@ class RunAt:
     def last_at(self):
         self.offset = self.now - timedelta(seconds=self.period)
         last_ran = self.next_at()
-        if last_ran > self.now:
+        if last_ran >= self.now:
             last_ran = last_ran - timedelta(seconds=self.period)
         return last_ran
 
