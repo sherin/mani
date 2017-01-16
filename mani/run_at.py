@@ -1,4 +1,3 @@
-import operator
 import re
 from datetime import timedelta
 
