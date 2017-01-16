@@ -2,6 +2,10 @@
 
 Mani is a distribued cron like scheduler. It uses redis to acquire lock on jobs (ensuring a job runs on one node only) and determining when to run the job next. 
 
+## Installation
+
+`pip install mani`
+
 ## Usage
 
 ```
