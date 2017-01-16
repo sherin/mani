@@ -20,8 +20,12 @@ mani_log.addHandler(ch)
 redis_url = "redis://localhost:6379/"
 mani = Mani(redis_url)
 
-@mani.every(weeks=1, at="mon 19:00:00")
+@mani.every(hours=1, at="25:00")
 def foo():
-    print 1 + 1
+    print "running foo"
+
+@mani.every(weeks=1, at="mon 19:00:00")
+def bar():
+    print "running bar"
 
 mani.start()
