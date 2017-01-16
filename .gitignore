@@ -1,3 +1,5 @@
 *.swp
 *.swo
 *.pyc
+dist/
+mani.egg-info/
