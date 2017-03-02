@@ -1,3 +1,4 @@
+import pytz
 import unittest
 from datetime import datetime, timedelta
 
@@ -15,11 +16,12 @@ class TestJob(unittest.TestCase):
     config = {
       "timeout": 60,
       "heartbeat_key": "mani:heartbeat",
+      "timezone": pytz.timezone('US/Pacific')
     }
 
     def test_init(self):
         job = Job("test", 1, None, run_job, redis, self.config)
-        now = datetime.now()
+        now = datetime.utcnow().replace(tzinfo=pytz.utc)
 
         self.assertIsNotNone(job)
         self.assertIs(job.is_running(), False)
@@ -27,13 +29,13 @@ class TestJob(unittest.TestCase):
 
     def test_should_run(self):
         job = Job("test", 1, None, run_job, redis, self.config)
-        now = datetime.now()
+        now = datetime.utcnow().replace(tzinfo=pytz.utc)
 
         self.assertIs(job.ready_to_run(now), True)
 
     def test_run(self):
         job = Job("test", 1, None, run_job, redis, self.config)
-        now = datetime.now()
+        now = datetime.utcnow().replace(tzinfo=pytz.utc)
 
         self.assertEqual(len(jobs_ran), 0)
         self.assertIs(job.ready_to_run(now), True)

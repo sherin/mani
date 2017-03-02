@@ -2,6 +2,7 @@
 import gc
 import logging
 import os
+import pytz
 import signal
 import socket
 import time
@@ -16,6 +17,7 @@ class Scheduler:
     DEFAULT_CONFIG = {
       "timeout": 60,
       "heartbeat_key": "mani:heartbeat",
+      "timezone": pytz.utc
     }
 
     TRAPPED_SIGNALS = (
@@ -75,7 +77,7 @@ class Scheduler:
         return "%s##%s" % (self.host, self.pid)
 
     def now(self):
-        return datetime.now()
+        return datetime.utcnow().replace(tzinfo=pytz.utc)
 
     def trap_signals(self):
         try:
@@ -91,7 +93,7 @@ class Scheduler:
         # process gets hot otherwise
         gc.collect()
 
-        now = datetime.now()
+        now = self.now()
         sleeptime = 1.0 - (now.microsecond / 1000000.0)
         time.sleep(sleeptime)
 

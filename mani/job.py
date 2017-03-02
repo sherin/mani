@@ -43,7 +43,7 @@ class Job:
     def ready_to_run(self, now):
         last_ran = self.last_ran(now)
 
-        run_at = RunAt(self.period, self.at, now, offset=last_ran).next_at()
+        run_at = RunAt(self.period, self.at, now, self.config['timezone'], offset=last_ran).next_at()
         log.debug("%s next run is at %s", self.name, run_at)
         if run_at > now or last_ran > now:
             return False
@@ -63,7 +63,7 @@ class Job:
             return util.to_datetime(last_ran)
 
         # new job
-        last_ran = RunAt(self.period, self.at, now).last_at()
+        last_ran = RunAt(self.period, self.at, now, self.config['timezone']).last_at()
         log.debug("%s new job, last ran would have been at %s", self.name, last_ran)
 
         return last_ran

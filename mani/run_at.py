@@ -1,3 +1,4 @@
+import pytz
 import re
 from datetime import timedelta
 
@@ -20,11 +21,12 @@ class RunAt:
         "sun": 6
     }
 
-    def __init__(self, period, at, now, offset=None):
+    def __init__(self, period, at, now, preferred_timezone, offset=None):
         self.period = period
         self.at = at
         self.offset = offset
         self.now = now
+        self.preferred_timezone = preferred_timezone
         self.minute = None
         self.hour = None
         self.wday = None
@@ -55,24 +57,6 @@ class RunAt:
             self.minute = int(match.group(1))
             return True
 
-    def find_at(self, op_func):
-        run_at = op_func(self.offset, timedelta(seconds=self.period))
-        if not self.at:
-            return run_at
-
-        matched = self.parse()
-        if not matched:
-            return self.offset
-
-        if self.minute is not None:
-            run_at = run_at.replace(minute=self.minute)
-        if self.hour is not None:
-            run_at = run_at.replace(hour=self.hour)
-        if self.wday is not None:
-            run_at = util.next_weekday(self.wday, run_at)
-
-        return run_at
-
     def last_at(self):
         self.offset = self.now - timedelta(seconds=self.period)
         last_ran = self.next_at()
@@ -89,6 +73,9 @@ class RunAt:
         if not matched:
             return self.offset
 
+        if self.preferred_timezone != pytz.utc:
+            run_at = run_at.astimezone(self.preferred_timezone)
+
         if self.minute is not None:
             run_at = run_at.replace(minute=self.minute)
         if self.hour is not None:
@@ -96,4 +83,4 @@ class RunAt:
         if self.wday is not None:
             run_at = util.next_weekday(self.wday, run_at)
 
-        return run_at
+        return run_at.astimezone(pytz.utc)

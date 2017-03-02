@@ -1,4 +1,5 @@
 
+import pytz
 import redis
 import time
 import urlparse
@@ -17,7 +18,7 @@ def redis_conn(redis_url):
     )
 
 def to_datetime(ts):
-    return datetime.fromtimestamp(float(ts))
+    return datetime.fromtimestamp(float(ts)).replace(tzinfo=pytz.utc)
 
 def to_timestamp(dt):
     return time.mktime(dt.timetuple())
