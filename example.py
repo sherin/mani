@@ -33,8 +33,8 @@ def foo():
 def bar():
     print "running bar"
 
-@mani.every(days=1, at="11:30:00")
+@mani.every(days=1, at="14:30:00")
 def baz():
-    print "running bar"
+    print "running baz"
 
 mani.start()

@@ -73,14 +73,24 @@ class RunAt:
         if not matched:
             return self.offset
 
+        utc_offset_hours = 0
+        utc_offset_minutes = 0
+
         if self.preferred_timezone != pytz.utc:
-            run_at = run_at.astimezone(self.preferred_timezone)
+            run_at_preferred_tz = run_at.astimezone(self.preferred_timezone)
+            utc_offset_seconds = run_at_preferred_tz.utcoffset().total_seconds()
+            utc_offset_hours = int(utc_offset_seconds / (60 * 60))
+            utc_offset_minutes = int((utc_offset_seconds - (utc_offset_hours * 60 * 60))/60)
 
         if self.minute is not None:
-            run_at = run_at.replace(minute=self.minute)
+            minute = self.minute - utc_offset_minutes
+            run_at = run_at.replace(minute=minute)
         if self.hour is not None:
-            run_at = run_at.replace(hour=self.hour)
+            hours_added = self.hour - utc_offset_hours
+            day = hours_added / 24 # when hours added > 24, then adjust the date
+            hour = hours_added % 24
+            run_at = run_at.replace(day=run_at.day + day, hour=hour)
         if self.wday is not None:
             run_at = util.next_weekday(self.wday, run_at)
 
-        return run_at.astimezone(pytz.utc)
+        return run_at

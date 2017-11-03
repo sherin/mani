@@ -18,10 +18,15 @@ def redis_conn(redis_url):
     )
 
 def to_datetime(ts):
-    return datetime.fromtimestamp(float(ts)).replace(tzinfo=pytz.utc)
+    return datetime.utcfromtimestamp(float(ts)).replace(tzinfo=pytz.utc)
 
 def to_timestamp(dt):
     return time.mktime(dt.timetuple())
+
+def to_timestamp_utc(dt):
+    utc_naive  = dt.replace(tzinfo=None) - dt.utcoffset()
+    timestamp = (utc_naive - datetime(1970, 1, 1)).total_seconds()
+    return timestamp
 
 def next_weekday(wday, dt):
     if dt.weekday() == wday:
