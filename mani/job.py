@@ -44,7 +44,7 @@ class Job:
         last_ran = self.last_ran(now)
 
         run_at = RunAt(self.period, self.at, now, self.config['timezone'], offset=last_ran).next_at()
-        log.debug("%s next run is at %s", self.name, run_at)
+        log.debug("%s next run is at %s, now is at %s, last ran was at %s", self.name, run_at, now, last_ran)
         if run_at > now or last_ran > now:
             return False
 
@@ -55,7 +55,7 @@ class Job:
         return "mani:job:%s" % self.name
 
     def set_last_ran(self, now):
-        self.redis.set(self.last_ran_key(), util.to_timestamp(now))
+        self.redis.set(self.last_ran_key(), util.to_timestamp_utc(now))
 
     def last_ran(self, now):
         last_ran = self.redis.get(self.last_ran_key())
