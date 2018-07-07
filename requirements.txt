@@ -1,3 +1,4 @@
 redis
 python-redis-lock
 pytz
+freezegun
