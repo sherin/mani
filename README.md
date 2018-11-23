@@ -1,6 +1,6 @@
 # Mani [![Build Status](https://travis-ci.org/sherinkurian/mani.svg?branch=master)](https://travis-ci.org/sherinkurian/mani)
 
-Mani is a distribued cron like scheduler. It uses redis to acquire lock on jobs (ensuring a job runs on one node only) and determining when to run the job next. 
+Mani is a distribued cron like scheduler. It uses redis to acquire lock on jobs (ensuring a job runs on one node only) and determining when to run the job next.
 
 ## Installation
 
@@ -48,3 +48,7 @@ def foo():
 def bar():
   print("running bar every week on monday at 7 pm Pacific time")
 ```
+
+### ChangeLog
+
+Nov 2018 - Version 0.3 released with Python3 support
