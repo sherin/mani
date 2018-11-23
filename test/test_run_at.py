@@ -11,8 +11,8 @@ def run_job():
 
 def display(utc_dt, tz_dt):
     fmt = '%Y-%m-%d %H:%M:%S %Z%z'
-    print "utc time: %s" % utc_dt.strftime(fmt)
-    print "local time: %s" % tz_dt.strftime(fmt)
+    print("utc time: %s" % utc_dt.strftime(fmt))
+    print("local time: %s" % tz_dt.strftime(fmt))
 
 def pretty_fmt(dt):
     fmt = '%Y-%m-%d %H:%M:%S %Z%z'

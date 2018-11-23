@@ -29,10 +29,10 @@ class TestScheduler(unittest.TestCase):
 
         self.assertTrue(5 <= len(jobs_ran) <= 7)
 
-        one_job_ran = filter(lambda j: j == "run_one_job", jobs_ran)
+        one_job_ran = tuple(filter(lambda j: j == "run_one_job", jobs_ran))
         self.assertTrue(3 <= len(one_job_ran) <= 4)
 
-        two_job_ran = filter(lambda j: j == "run_two_job", jobs_ran)
+        two_job_ran = tuple(filter(lambda j: j == "run_two_job", jobs_ran))
         self.assertTrue(1 <= len(two_job_ran) <= 2)
 
 

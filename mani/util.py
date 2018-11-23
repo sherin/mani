@@ -2,11 +2,17 @@
 import pytz
 import redis
 import time
-import urlparse
+
 from datetime import datetime, timedelta
+try:
+    # Python 3
+    from urllib.parse import urlparse
+except ImportError:
+    # Python 2
+    from urlparse import urlparse
 
 def redis_conn(redis_url):
-    info = urlparse.urlparse(redis_url)
+    info = urlparse(redis_url)
     host = info.hostname
     port = info.port
     password = info.password

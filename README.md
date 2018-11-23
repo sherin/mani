@@ -14,19 +14,19 @@ clock = Mani("redis://localhost:6379/")
 
 @clock.every(minutes=1)
 def foo():
-  print "running foo every minute"
+  print("running foo every minute")
 
 @clock.every(weeks=1, at="mon 19:00:00")
 def bar():
-  print "running bar every week on monday"
+  print("running bar every week on monday")
 
 @clock.every(hours=1, at="25:00")
 def baz():
-  print "running baz hourly on the 25th minute"
+  print("running baz hourly on the 25th minute"
 
 @clock.every(days=1, at="13:00:00")
 def qux():
-  print "running qux daily at 1 pm"
+  print("running qux daily at 1 pm")
 ```
 
 ### Run on specific timezone
@@ -42,9 +42,9 @@ clock = Mani("redis://localhost:6379/", config)
 
 @clock.every(minutes=1)
 def foo():
-  print "running foo every minute"
+  print("running foo every minute")
 
 @clock.every(weeks=1, at="mon 19:00:00")
 def bar():
-  print "running bar every week on monday at 7 pm Pacific time"
+  print("running bar every week on monday at 7 pm Pacific time")
 ```

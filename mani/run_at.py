@@ -2,7 +2,7 @@ import pytz
 import re
 from datetime import timedelta
 
-import util
+from . import util
 
 class RunAt:
     MINUTE_PATTERN = "(\d\d?):(\d\d?)"
@@ -87,7 +87,7 @@ class RunAt:
             run_at = run_at.replace(minute=minute)
         if self.hour is not None:
             hours_added = self.hour - utc_offset_hours
-            days_added = hours_added / 24 # when hours added > 24, then adjust the date
+            days_added = int(hours_added / 24) # when hours added > 24, then adjust the date
             run_at += timedelta(days=days_added)
             hour = hours_added % 24
             run_at = run_at.replace(hour=hour)

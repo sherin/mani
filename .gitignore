@@ -3,3 +3,4 @@
 *.pyc
 dist/
 mani.egg-info/
+.vscode
