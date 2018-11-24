@@ -2,5 +2,6 @@
 *.swo
 *.pyc
 dist/
+build/
 mani.egg-info/
 .vscode
