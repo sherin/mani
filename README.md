@@ -2,6 +2,8 @@
 
 Mani is a distribued cron like scheduler. It uses redis to acquire lock on jobs (ensuring a job runs on one node only) and determining when to run the job next.
 
+🍊 Battle-tested at Instacart
+
 ## Installation
 
 `pip install mani`
@@ -29,7 +31,7 @@ def qux():
   print("running qux daily at 1 pm")
 ```
 
-### Run on specific timezone
+### Run on specific timezone (Respects Daylight Savings 🎉)
 
 ```
 import pytz
@@ -51,4 +53,4 @@ def bar():
 
 ### ChangeLog
 
-Nov 2018 - Version 0.3 released with Python3 support
+Nov 2018 - Version 0.3 released with Python3 support 🚀
