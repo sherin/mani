@@ -1,10 +1,10 @@
 
-import util
+from . import util
 
 import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
 
-from scheduler import Scheduler
+from .scheduler import Scheduler
 
 class Mani:
 

@@ -8,7 +8,8 @@ import socket
 import time
 from datetime import datetime
 
-from job import Job
+from .job import Job
+from . import util
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +72,8 @@ class Scheduler:
         return filter(lambda j: j.ready_to_run(now), self.jobs.values())
 
     def heartbeat(self, now):
-        self.redis.hset(self.config["heartbeat_key"], self.heartbeat_field(), now)
+        ts = util.to_timestamp(now)
+        self.redis.hset(self.config["heartbeat_key"], self.heartbeat_field(), ts)
 
     def heartbeat_field(self):
         return "%s##%s" % (self.host, self.pid)

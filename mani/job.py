@@ -2,8 +2,8 @@
 import logging
 import redis_lock
 
-import util
-from run_at import RunAt
+from . import util
+from .run_at import RunAt
 
 log = logging.getLogger(__name__)
 

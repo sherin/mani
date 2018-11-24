@@ -27,14 +27,14 @@ mani = Mani(redis_url, config)
 
 @mani.every(minutes=1)
 def foo():
-    print "running foo"
+    print("running foo")
 
 @mani.every(weeks=1, at="mon 19:00:00")
 def bar():
-    print "running bar"
+    print("running bar")
 
 @mani.every(days=1, at="14:30:00")
 def baz():
-    print "running baz"
+    print("running baz")
 
 mani.start()
