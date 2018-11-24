@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 setup(name='mani',
-      version='0.3',
+      version='0.3.1',
       packages=['mani'],
       install_requires=['redis',
                         'python-redis-lock',
