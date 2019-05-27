@@ -10,7 +10,7 @@ Mani is a distribued cron like scheduler. It uses redis to acquire lock on jobs 
 
 ## Usage
 
-```
+```python
 from mani import Mani
 clock = Mani("redis://localhost:6379/")
 
@@ -33,7 +33,7 @@ def qux():
 
 ### Run on specific timezone (Respects Daylight Savings 🎉)
 
-```
+```python
 import pytz
 from mani import Mani
 
