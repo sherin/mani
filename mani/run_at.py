@@ -88,7 +88,7 @@ class RunAt:
         if self.hour is not None:
             hours_added = self.hour - utc_offset_hours
             days_added = int(hours_added / 24) # when hours added > 24, then adjust the date
-            run_at += timedelta(days=days_added)
+            run_at -= timedelta(days=days_added)
             hour = hours_added % 24
             run_at = run_at.replace(hour=hour)
         if self.wday is not None:
