@@ -120,6 +120,18 @@ class TestJobWithRunAt(TestJob):
             frozen_time.tick(delta=timedelta(seconds=60*60))
             now = datetime.utcnow().replace(tzinfo=pytz.utc)
             self.assertIs(job.ready_to_run(now), True)
+            job.run(now)
+            self.assertIs(job.ready_to_run(now), False)
+
+            # move time forward by 12 hours
+            frozen_time.tick(delta=timedelta(seconds=60*60*12))
+            now = datetime.utcnow().replace(tzinfo=pytz.utc)
+            self.assertIs(job.ready_to_run(now), False)
+
+            # move time forward by 12 hours
+            frozen_time.tick(delta=timedelta(seconds=60*60*12))
+            now = datetime.utcnow().replace(tzinfo=pytz.utc)
+            self.assertIs(job.ready_to_run(now), True)
 
     def test_daily_job_run_for_a_specific_time_in_morning(self):
         # set up a job that runs daily at a specific time
