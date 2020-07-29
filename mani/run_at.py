@@ -60,8 +60,14 @@ class RunAt:
     def last_at(self):
         self.offset = self.now - timedelta(seconds=self.period)
         last_ran = self.next_at()
-        if last_ran >= self.now:
+
+        # force last ran to be in the past
+        attempts = 0
+        while last_ran >= self.now:
             last_ran = last_ran - timedelta(seconds=self.period)
+            attempts += 1
+            if attempts > 10:
+                break
         return last_ran
 
     def next_at(self):
@@ -73,25 +79,16 @@ class RunAt:
         if not matched:
             return self.offset
 
-        utc_offset_hours = 0
-        utc_offset_minutes = 0
-
+        run_at_in_preferred_timezone = run_at
         if self.preferred_timezone != pytz.utc:
-            run_at_preferred_tz = run_at.astimezone(self.preferred_timezone)
-            utc_offset_seconds = run_at_preferred_tz.utcoffset().total_seconds()
-            utc_offset_hours = int(utc_offset_seconds / (60 * 60))
-            utc_offset_minutes = int((utc_offset_seconds - (utc_offset_hours * 60 * 60))/60)
+            run_at_in_preferred_timezone = run_at.astimezone(self.preferred_timezone)
 
         if self.minute is not None:
-            minute = self.minute - utc_offset_minutes
-            run_at = run_at.replace(minute=minute)
+            run_at_in_preferred_timezone = run_at_in_preferred_timezone.replace(minute=self.minute)
         if self.hour is not None:
-            hours_added = self.hour - utc_offset_hours
-            days_added = int(hours_added / 24) # when hours added > 24, then adjust the date
-            run_at += timedelta(days=days_added)
-            hour = hours_added % 24
-            run_at = run_at.replace(hour=hour)
+            run_at_in_preferred_timezone = run_at_in_preferred_timezone.replace(hour=self.hour)
         if self.wday is not None:
-            run_at = util.next_weekday(self.wday, run_at)
+            run_at_in_preferred_timezone = util.next_weekday(self.wday, run_at_in_preferred_timezone)
 
+        run_at = run_at_in_preferred_timezone.astimezone(pytz.utc)
         return run_at
